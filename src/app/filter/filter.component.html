@@ -1,0 +1,63 @@
+<div class="example">
+	<h3>Dynamically add options to Multi select: </h3>
+
+	<ng-selectize [config]="config" [options]="options" [placeholder]="placeholder" [(ngModel)]="value"
+				   (ngModelChange)="onValueChange($event)" ngDefaultControl></ng-selectize>
+	
+</div>
+
+
+<form class="ui form" [formGroup]="formGroupExample" [ngClass]="{'error': !formGroupExample.valid && formGroupExample.touched}">
+	<div class="required field">
+		<label>Name:</label>
+		<div class="two fields">
+			<div class="required field" [ngClass]="{'error': formGroupExample.get('firstName').touched && formGroupExample.get('firstName').errors}">
+				<input placeholder="First Name" formControlName="firstName">
+				<div class="ui basic red pointing prompt label" style="margin-top: 5px;"
+					 *ngIf="formGroupExample.get('firstName').touched && formGroupExample.get('firstName').hasError('required')">
+					First name is required.
+				</div>
+			</div>
+
+			<div class="required field" [ngClass]="{'error': formGroupExample.get('lastName').touched && formGroupExample.get('lastName').errors}">
+				<input placeholder="Last Name" formControlName="lastName">
+				<div class="ui basic red pointing prompt label" style="margin-top: 5px;"
+					 *ngIf="formGroupExample.get('lastName').touched && formGroupExample.get('lastName').hasError('required')">
+					Last name is required.
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="two fields">
+		<div class="required field">
+			<label>Required Dropdown:</label>
+			<ng-selectize [errorClass]="'has-error'" [formControl]="formGroupExample.get('requiredDropdownExample')" [config]="requiredDropdownConfig" [options]="requiredDropdownOptions" [hasOptionsPlaceholder]="'Click to select...'"></ng-selectize>
+			<!--<ng-selectize [errorClass]="'has-error'" [formControl]="formGroupExample.get('requiredDropdownExample')" [config]="requiredDropdownConfig" [options]="requiredDropdownOptions" [hasOptionsPlaceholder]="'Click to select...'"></ng-selectize>-->
+			<div class="ui basic red pointing prompt label" style="margin-top: 5px;"
+				 *ngIf="formGroupExample.get('requiredDropdownExample').touched && formGroupExample.get('requiredDropdownExample').errors">
+				<span *ngIf="formGroupExample.get('requiredDropdownExample').hasError('doesntStartWithR')">- Dropdown value must start with R.<br /></span>
+				<span *ngIf="formGroupExample.get('requiredDropdownExample').hasError('required')">- Dropdown value is required.</span>
+			</div>
+			<!--<div class="ui basic red pointing prompt label" style="margin-top: 5px;" *ngIf="formGroupExample.get('requiredDropdownExample').touched && formGroupExample.get('requiredDropdownExample').hasError('required')">Dropdown value is required.</div>-->
+		</div>
+		<div class="field">
+			<label>Other Field:</label>
+			<input type="text" placeholder="Other field...">
+		</div>
+	</div>
+	<div class="ui grid">
+		<div class="sixteen wide column" style="text-align: right;">
+			<button class="ui default button" (click)="testSetValue()">
+				Set form value
+			</button>
+			<button class="ui default button" (click)="resetForm()">
+				Reset
+			</button>
+			<button class="ui teal right labeled icon submit button" [ngClass]="{'disabled': !formGroupExample.valid}">
+				Submit
+				<i class="checkmark icon"></i>
+			</button>
+		</div>
+	</div>
+</form>
